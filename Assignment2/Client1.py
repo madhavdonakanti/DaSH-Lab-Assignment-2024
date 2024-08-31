@@ -1,0 +1,54 @@
+import requests
+from flask import Flask, request, jsonify
+import requests
+import google.generativeai as genai
+import os
+import time
+import json
+
+
+SERVER_URL = "http://localhost:5000/generate"
+
+def send_prompt(prompt):
+    # Send the prompt to the server
+    response = requests.post(SERVER_URL, json={"prompt": prompt,"ClientID":"ehdur3279fj&*jt49"})
+    return response.json()
+
+
+inputpromptfile=open("/home/madhav/Documents/DaSHLab/Assignment1/input.txt",'r')
+inputprompts=inputpromptfile.read().splitlines()
+
+empty_data = []
+with open('/home/madhav/Documents/DaSHLab/Assignment2/output1.json', 'w') as json_file:
+    json.dump(empty_data, json_file, indent=4)
+
+
+inputpromptfile=open("/home/madhav/Documents/DaSHLab/Assignment1/input.txt",'r')
+inputprompts=inputpromptfile.read().splitlines()
+i=0
+while i<4 :
+
+    prompt = inputprompts[i]
+    if __name__ == "__main__":
+        response = send_prompt(prompt)
+    if response == 'Incorrect key':
+        print('incorrect key')
+        quit()
+    if response["Prompt"]!=prompt:
+        response["Source"]="user"
+
+    
+    with open("/home/madhav/Documents/DaSHLab/Assignment2/output1.json", "r") as json_file:
+        data = json.load(json_file)
+        data.append(response)
+
+    with open("/home/madhav/Documents/DaSHLab/Assignment2/output1.json", "w") as json_file:
+        json.dump(data, json_file, indent=4)
+    
+    i=i+1
+
+
+with open("/home/madhav/Documents/DaSHLab/Assignment2/output1.json", "r") as json_file:
+    data = json.load(json_file)
+    print(data)
+
